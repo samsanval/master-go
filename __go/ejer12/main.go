@@ -10,6 +10,8 @@ import (
 func main() {
 	readFile()
 	readFile2()
+	writeFile()
+	writeFile2()
 }
 
 func readFile() {
@@ -32,4 +34,35 @@ func readFile2() {
 			fmt.Printf("Linea > %s \n", register)
 		}
 	}
+	file.Close()
+}
+func writeFile() {
+	var file, err = os.Create("./newFile.txt")
+	if err != nil {
+		fmt.Println("Error")
+		return
+	}
+	fmt.Fprintln(file, "Esto es un texto metido en el curso de GO")
+	file.Close()
+}
+
+func writeFile2() {
+	var fileName string = "./newFile.txt"
+	if append(fileName, "\n Esta es una segunda linea") == false {
+		fmt.Println("Error")
+
+	}
+}
+func append(filenName string, text string) bool {
+	var file, err = os.OpenFile(filenName, os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		fmt.Println("Error")
+		return false
+	}
+	_, err = file.WriteString(text)
+	if err != nil {
+		fmt.Println("Error al escribir")
+		return false
+	}
+	return true
 }
